@@ -1,0 +1,16 @@
+.log-container {
+    height: 60vh;
+    margin: 20px;
+    border: 2px solid rgb(135, 135, 253);
+    border-radius: 10px;
+    padding: 10px;
+    overflow-y: auto;
+}
+
+.logs-title {
+    border-bottom: 1px solid rgb(135, 135, 253);;
+}
+
+.log-entry {
+    font-size: 12px;
+}

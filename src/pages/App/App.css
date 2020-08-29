@@ -1,0 +1,17 @@
+.header-conectar {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    padding: 20px 0px;
+    background-color: skyblue;
+}
+
+.admin-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.app-page {
+    height: 100vh;
+}

@@ -1,0 +1,14 @@
+.mensaje-enviar-page {
+    padding: 10px 20px;
+    display: flex;
+}
+
+.algoritmos-opciones {
+    flex: 1;
+}
+
+.input-mensaje {
+    flex: 1;
+    border-left: 1px solid black;
+    padding: 0 15px;
+}

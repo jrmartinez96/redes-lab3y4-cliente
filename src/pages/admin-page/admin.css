@@ -1,0 +1,15 @@
+.admin-page {
+    display: flex;
+}
+
+.change-weight {
+    flex: 1;
+    padding-left: 20px;
+}
+
+.nodes-list {
+    flex: 1;
+    border-left: 1px solid black;
+    padding-left: 20px;
+    height: 100vh;
+}
