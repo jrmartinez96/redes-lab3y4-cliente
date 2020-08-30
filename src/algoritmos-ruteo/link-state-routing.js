@@ -6,8 +6,10 @@
  * @param {string} idOrigen - Id del nodo origen
  * @param {string} mensaje - El mensaje que se desea enviar
  * @param {string} onSendMessage - Funcion que se llama al enviar el mensaje
+ * @param {any} extra - Data extra que manda el emisor, si no existe se debe colocar null
  */
-export const lsr = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendMessage) => {
+export const lsr = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendMessage, extra) => {
+    extra = extra || null;
     // Obtener nombre de los nodos
     let nombreOrigen = "";
     let nombreDestinoFinal = ""

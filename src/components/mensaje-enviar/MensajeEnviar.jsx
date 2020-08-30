@@ -22,13 +22,13 @@ class MensajeEnviar extends React.Component {
         if (mensaje !== "") {
             switch (this.state.algoritmo) {
                 case "flooding":
-                    flooding(socket, nodos, id, selectedNodo, id, mensaje, this.props.onAfterSendMessage);
+                    flooding(socket, nodos, id, selectedNodo, id, mensaje, this.props.onAfterSendMessage, null);
                     break;
                 case "dvr":
-                    dvr(socket, nodos, id, selectedNodo, id, mensaje, this.props.onAfterSendMessage);
+                    dvr(socket, nodos, id, selectedNodo, id, mensaje, this.props.onAfterSendMessage, null);
                     break;
                 case "lsr":
-                    lsr(socket, nodos, id, selectedNodo, id, mensaje, this.props.onAfterSendMessage);
+                    lsr(socket, nodos, id, selectedNodo, id, mensaje, this.props.onAfterSendMessage, null);
                     break;
             
                 default:

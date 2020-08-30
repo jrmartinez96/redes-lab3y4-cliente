@@ -68,13 +68,13 @@ class App extends React.Component {
 
         switch (this.state.algoritmo) {
           case "flooding":
-            flooding(socket, this.state.nodos, this.state.id, idNodoDestinoFinal, idNodoOrigen, mensaje, this.addLog);
+            flooding(socket, this.state.nodos, this.state.id, idNodoDestinoFinal, idNodoOrigen, mensaje, this.addLog, res.extra !== undefined ? res.extra : null);
             break;
           case "dvr":
-            dvr(socket, this.state.nodos, this.state.id, idNodoDestinoFinal, idNodoOrigen, mensaje, this.addLog);
+            dvr(socket, this.state.nodos, this.state.id, idNodoDestinoFinal, idNodoOrigen, mensaje, this.addLog, res.extra !== undefined ? res.extra : null);
             break;
           case "lsr":
-            lsr(socket, this.state.nodos, this.state.id, idNodoDestinoFinal, idNodoOrigen, mensaje, this.addLog);
+            lsr(socket, this.state.nodos, this.state.id, idNodoDestinoFinal, idNodoOrigen, mensaje, this.addLog, res.extra !== undefined ? res.extra : null);
             break;
       
           default:
