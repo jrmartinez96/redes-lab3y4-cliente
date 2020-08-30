@@ -61,9 +61,28 @@ class App extends React.Component {
         }
       })
 
-      if (idNodoDestinoFinal === this.state.id) {
-        this.addLog(`Se recibió un mensaje de ${nombreDesde} con origen ${nombreOrigen}: ${mensaje}`);
-      } else {
+      if (idNodoDestinoFinal === this.state.id) { // Si el nodo actual es el destino final
+        if (res.extra) { // Si trae el parámetro de extra
+          if (res.extra.algoritmo === 'flooding') { // si el algoritmo con el que se mandó el mensaje fue con flooding
+            const { saltosRecorridos, distancia, nodosUsados } = res.extra;
+            let stringRecorridos = "[ "
+
+            nodosUsados.forEach(nodoUsado => {
+              stringRecorridos = stringRecorridos + `${nodoUsado.nombre}, `
+            });
+            stringRecorridos = stringRecorridos.substr(0, stringRecorridos.length - 2) + " ]"
+
+            this.addLog(`Se recibió un mensaje de ${nombreDesde} con origen ${nombreOrigen}: '${mensaje}'--- saltos recorridos: ${saltosRecorridos} --- distancia recorrida: ${distancia} --- Nodos recorridos: ${stringRecorridos};;`);
+
+          } else if (res.extra.algoritmo === 'dvr') { // si el algoritmo con el que se mandó el mensaje fue con Distance Vector Routing
+            
+          } else if (res.extra.algoritmo === 'lsr') { // si el algoritmo con el que se mandó el mensaje fue con Link State Routing
+            
+          }
+        } else { // Si no trae el parámetro de extra
+          this.addLog(`Se recibió un mensaje de ${nombreDesde} con origen ${nombreOrigen}: ${mensaje}`);
+        }
+      } else { // Si el nodo actual es un puente hacia el nodo final
         this.addLog(`Se recibió un mensaje de ${nombreDesde} con origen ${nombreOrigen} que es para ${nombreDestinoFinal}`);
 
         switch (this.state.algoritmo) {
