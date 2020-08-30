@@ -83,23 +83,6 @@ export const flooding = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendM
             onSendMessage('No se cuenta con la información necesaria para enviar el mensaje utilizando FLOODING.')
         }
     }
-
-
-
-
-    // TODO: Implementar algoritmo para decidir a quien enviarle el mensaje
-
-    // socket.emit('send-message', {
-    //     idNodoDestino: idEnviar, // Id del nodo al que se le quiere mandar el mensaje dentro de la red (el intermedio)
-    //     idNodoOrigen: idOrigen, // Id del nodo origen
-    //     idNodoDestinoFinal: idEnviar, // Id del nodo destino final
-    //     mensaje: mensaje, // Mensaje que se le quiere enviar
-    // })
-
-
-    // Despues de mandar el mensaje
-    // onSendMessage(`Se envió el mensaje de origen ${nombreOrigen} hacia ${nombreDestinoFinal}`);
-
 }
 
 /**
