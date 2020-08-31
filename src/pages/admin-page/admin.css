@@ -1,4 +1,7 @@
 .admin-page {
+}
+
+.weight-conf-container {
     display: flex;
 }
 
@@ -11,5 +14,11 @@
     flex: 1;
     border-left: 1px solid black;
     padding-left: 20px;
-    height: 100vh;
+}
+
+.node-graph-container {
+    height: 500px;
+    width: 800px;
+    margin: 15px auto;
+    border: 1px solid black;
 }
