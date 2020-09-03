@@ -25,8 +25,8 @@ class App extends React.Component {
   }
 
   conectar = () => {
-    const socket = io.connect('http://localhost:8000');
-    // const socket = io.connect('https://lab3y4-redes-server.herokuapp.com/');
+    // const socket = io.connect('http://localhost:8000');
+    const socket = io.connect('https://lab3y4-redes-server.herokuapp.com/');
     
     this.setState({ socket: socket })
 
