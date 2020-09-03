@@ -5,14 +5,6 @@
  * @param {string} idEnviar - Id del nodo al que se le desea enviar el mensaje
  * @param {string} idOrigen - Id del nodo origen
  * @param {string} mensaje - El mensaje que se desea enviar
-<<<<<<< Updated upstream
- * @param {string} onSendMessage - Funcion que se llama al enviar el mensaje
- * @param {any} extra - Data extra que manda el emisor, si no existe se debe colocar null
- */
-export const lsr = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendMessage, extra) => {
-    extra = extra || null;
-    // Obtener nombre de los nodos
-=======
  * @param {any} extra - Data extra que manda el emisor, si no existe se debe colocar null
  */
 
@@ -22,7 +14,6 @@ export const lsr = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendMessag
 
     // ---------------- Obtener info de los nodos
     let currentNodo = {};
->>>>>>> Stashed changes
     let nombreOrigen = "";
     let nombreDestinoFinal = ""
 
@@ -51,7 +42,7 @@ export const lsr = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendMessag
                 idNodoDestinoFinal: idEnviar, // Id del nodo destino final
                 mensaje: mensaje, // Mensaje que se le quiere enviar
                 extra: {
-                    algoritmo: 'flooding',
+                    algoritmo: 'link-state-routing',
                     saltosRecorridos: 1,
                     distancia: parseInt(vecino.peso),
                     nodosUsados: [{id: currentNodo.id, nombre: currentNodo.nombre}]
