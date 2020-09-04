@@ -23,33 +23,33 @@ export const dvr = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendMessag
         }
     })
 
-    let distances = [];
-    let parents = [];
+    let distances = []; //Almacena las distancias entre parents (de la ruta mas corta).
+    let parents = []; //Almacena a todos los parents de la ruta mas corta para luego enviarles el mensaje hasta el nodo destino.
     let c;
 
     // TODO: Implementar algoritmo para decidir a quien enviarle el mensaje
-    if (extra.done === false){
+    if (extra.done === false){ //Solo se realiza si es el nodo origen.
 
 
-            for (let i = 0; i < nodos.length; i += 1) {
-                distances[nodos[i].id] = Infinity;
-                parents[nodos[i].id] = null;
+            for (let i = 0; i < nodos.length; i += 1) { //En este algoritmo se inicializan las listas mencionadas anteriormente.
+                distances[nodos[i].id] = Infinity; //Se asigna infinito a todas las distancias, ya que son desconocidas.
+                parents[nodos[i].id] = null; //Se asigna null a todos las parents, ya que se desconocen.
             }
-            distances[idOrigen] = 0;
+            distances[idOrigen] = 0; //La distancia del nodo origen siempre es 0.
             
-            for (let i = 0; i < nodos.length - 1; i += 1) {
+            for (let i = 0; i < nodos.length - 1; i += 1) { //Este algoritmo verifica la ruta mas corta.
                 for (var j = 0; j < aristas.length; j += 1) {
                     c = aristas[j];
-                    if (distances[c.from.id] + c.peso < distances[c.to.id]) {
-                        distances[c.to.id] = distances[c.from.id] + c.peso;
-                        parents[c.to.from] = c.to.id;
+                    if (distances[c.from.id] + c.peso < distances[c.to.id]) { //Se evaluan las distancias de cada nodo asociado al que se evalua.
+                        distances[c.to.id] = distances[c.from.id] + c.peso; //Se almacena la distancia acumulada de la ruta.
+                        parents[c.to.from] = c.to.id; //Se inicializa en el index (nodo origen o suborigen) y se almacena nodo destino o subdestino.
                     }
                 }
             }
 
-            for (let i = 0; i < aristas.length; i += 1) {
+            for (let i = 0; i < aristas.length; i += 1) { //Se evalua la posibilidad de que exista un ciclo negativo en el grafo.
                 c = aristas[i];
-                if (distances[c.from.id] + c.peso < distances[c.to.id]) {
+                if (distances[c.from.id] + c.peso < distances[c.to.id]) { 
                     onSendMessage('El grafo tiene un ciclo negativo.');
                 }
             }
@@ -61,7 +61,7 @@ export const dvr = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendMessag
                 idNodoOrigen: idOrigen, // Id del nodo origen
                 idNodoDestinoFinal: idEnviar, // Id del nodo destino final
                 mensaje: mensaje, // Mensaje que se le quiere enviar
-                extra: {parents: parents, done: true, counter: 0, algoritmo: 'dvr'},
+                extra: {parents: parents, done: true, counter: 0, algoritmo: 'dvr'}, //Se envian parametros extras para los siguientes clientes.
             })
             // Despues de mandar el mensaje
             onSendMessage(`Se envió el mensaje de origen ${nombreOrigen} hacia ${parents[idOrigen]}`);
@@ -73,7 +73,7 @@ export const dvr = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendMessag
                     idNodoOrigen: extra.parents[idOrigen], // Id del nodo origen
                     idNodoDestinoFinal: idEnviar, // Id del nodo destino final
                     mensaje: mensaje, // Mensaje que se le quiere enviar
-                    extra: {parents: parents, done: true, counter: counter, algoritmo: 'dvr'},
+                    extra: {parents: parents, done: true, counter: counter, algoritmo: 'dvr'}, //Se envian parametros extras para los siguientes clientes.
                 })
             }
             // Despues de mandar el mensaje
