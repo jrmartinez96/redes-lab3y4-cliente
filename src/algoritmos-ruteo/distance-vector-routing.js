@@ -69,8 +69,8 @@ export const dvr = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendMessag
             if (extra.counter <= extra.parents.length){
                 let counter = extra.counter + 1;
                 socket.emit('send-message', {
-                    idNodoDestino: idEnviar, // Id del nodo al que se le quiere mandar el mensaje dentro de la red (el intermedio)
-                    idNodoOrigen: extra.parents[idOrigen], // Id del nodo origen
+                    idNodoDestino: extra.parents[idOrigen], // Id del nodo al que se le quiere mandar el mensaje dentro de la red (el intermedio)
+                    idNodoOrigen: idOrigen, // Id del nodo origen
                     idNodoDestinoFinal: idEnviar, // Id del nodo destino final
                     mensaje: mensaje, // Mensaje que se le quiere enviar
                     extra: {parents: parents, done: true, counter: counter},
