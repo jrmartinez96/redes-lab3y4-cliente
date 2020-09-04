@@ -42,7 +42,7 @@ export const lsr = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendMessag
                 idNodoDestinoFinal: idEnviar, // Id del nodo destino final
                 mensaje: mensaje, // Mensaje que se le quiere enviar
                 extra: {
-                    algoritmo: 'link-state-routing',
+                    algoritmo: 'lsr',
                     saltosRecorridos: 1,
                     distancia: parseInt(vecino.peso),
                     nodosUsados: [{id: currentNodo.id, nombre: currentNodo.nombre}]
@@ -68,7 +68,7 @@ export const lsr = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendMessag
                         idNodoDestinoFinal: idEnviar, // Id del nodo destino final
                         mensaje: mensaje, // Mensaje que se le quiere enviar
                         extra: {
-                            algoritmo: 'link-state-routing',
+                            algoritmo: 'lsr',
                             saltosRecorridos: parseInt(extra.saltosRecorridos) + 1,
                             distancia: parseInt(extra.distancia) + parseInt(vecino.peso),
                             nodosUsados: [...extra.nodosUsados, {id: currentNodo.id, nombre: currentNodo.nombre}]

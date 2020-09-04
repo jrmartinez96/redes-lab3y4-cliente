@@ -25,7 +25,7 @@ class MensajeEnviar extends React.Component {
                     flooding(socket, nodos, id, selectedNodo, id, mensaje, this.props.onAfterSendMessage, null);
                     break;
                 case "dvr":
-                    dvr(socket, nodos, id, selectedNodo, id, mensaje, this.props.onAfterSendMessage, null);
+                    dvr(socket, nodos, id, selectedNodo, id, mensaje, this.props.onAfterSendMessage, {aristas: this.props.aristas, done: false});
                     break;
                 case "lsr":
                     lsr(socket, nodos, id, selectedNodo, id, mensaje, this.props.onAfterSendMessage, null);
@@ -51,7 +51,7 @@ class MensajeEnviar extends React.Component {
                     <p>Algoritmo a utilizar:</p>
                     <input defaultChecked type="radio" id="flooding" name="algoritmo" value="flooding"/>
                     <label>Flooding</label><br/>
-                    <input type="radio" id="dvr" name="algoritmo" value="vdr"/>
+                    <input type="radio" id="dvr" name="algoritmo" value="dvr"/>
                     <label>Distance vector routing</label><br/>
                     <input type="radio" id="lsr" name="algoritmo" value="lsr"/>
                     <label>Link state routing</label>

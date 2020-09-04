@@ -19,6 +19,7 @@ class App extends React.Component {
       nombre: "",
       id: "",
       nodos: [],
+      aristas: [],
       algoritmo: "flooding",
       log: []
     }
@@ -32,7 +33,7 @@ class App extends React.Component {
 
     socket.on('actualizacion-red', (res) => {
       console.log("Actualizacion red ", res)
-      this.setState({nodos: res.nodos})
+      this.setState({nodos: res.nodos, aristas: res.aristas})
     })
 
     socket.on('node-connect-complete', (res) => {
@@ -46,7 +47,7 @@ class App extends React.Component {
     })
 
     socket.on('receive-message', (res) => {
-      const { idNodoOrigen, idNodoDesde, idNodoDestinoFinal, mensaje } = res;
+      const { idNodoOrigen, idNodoDesde, idNodoDestinoFinal, mensaje, aristas } = res;
 
       let nombreOrigen = "";
       let nombreDestinoFinal = ""
@@ -79,7 +80,15 @@ class App extends React.Component {
           } else if (res.extra.algoritmo === 'dvr') { // si el algoritmo con el que se mandó el mensaje fue con Distance Vector Routing
             
           } else if (res.extra.algoritmo === 'lsr') { // si el algoritmo con el que se mandó el mensaje fue con Link State Routing
-            
+            const { saltosRecorridos, distancia, nodosUsados } = res.extra;
+            let stringRecorridos = "[ "
+
+            nodosUsados.forEach(nodoUsado => {
+              stringRecorridos = stringRecorridos + `${nodoUsado.nombre}, `
+            });
+            stringRecorridos = stringRecorridos.substr(0, stringRecorridos.length - 2) + " ]"
+
+            this.addLog(`Se recibió un mensaje de ${nombreDesde} con origen ${nombreOrigen}: '${mensaje}'--- saltos recorridos: ${saltosRecorridos} --- distancia recorrida: ${distancia} --- Nodos recorridos: ${stringRecorridos};;`);
           }
         } else { // Si no trae el parámetro de extra
           this.addLog(`Se recibió un mensaje de ${nombreDesde} con origen ${nombreOrigen}: ${mensaje}`);
@@ -87,12 +96,14 @@ class App extends React.Component {
       } else { // Si el nodo actual es un puente hacia el nodo final
         this.addLog(`Se recibió un mensaje de ${nombreDesde} con origen ${nombreOrigen} que es para ${nombreDestinoFinal}`);
 
-        switch (this.state.algoritmo) {
+        const algo = res.extra !== undefined ? res.extra.algoritmo : "";
+
+        switch (algo) {
           case "flooding":
             flooding(socket, this.state.nodos, this.state.id, idNodoDestinoFinal, idNodoOrigen, mensaje, this.addLog, res.extra !== undefined ? res.extra : null);
             break;
           case "dvr":
-            dvr(socket, this.state.nodos, this.state.id, idNodoDestinoFinal, idNodoOrigen, mensaje, this.addLog, res.extra !== undefined ? res.extra : null);
+            dvr(socket, this.state.nodos, this.state.id, idNodoDestinoFinal, idNodoOrigen, mensaje, this.addLog, res.extra !== undefined ? {...res.extra, aristas} : {aristas});
             break;
           case "lsr":
             lsr(socket, this.state.nodos, this.state.id, idNodoDestinoFinal, idNodoOrigen, mensaje, this.addLog, res.extra !== undefined ? res.extra : null);
@@ -149,7 +160,7 @@ class App extends React.Component {
               {
                 this.state.connectionComplete ?
                 <Fragment>
-                  <MensajeEnviar socket={this.state.socket} id={this.state.id} nodos={this.state.nodos} onAlgoritmoChange={this.algoritmoChange} onAfterSendMessage={this.addLog}/>
+                  <MensajeEnviar socket={this.state.socket} id={this.state.id} nodos={this.state.nodos} onAlgoritmoChange={this.algoritmoChange} onAfterSendMessage={this.addLog} aristas={this.state.aristas}/>
                   <LogComponent logs={this.state.log}/>
                 </Fragment>
                 :
