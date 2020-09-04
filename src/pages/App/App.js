@@ -46,7 +46,7 @@ class App extends React.Component {
     })
 
     socket.on('receive-message', (res) => {
-      const { idNodoOrigen, idNodoDesde, idNodoDestinoFinal, mensaje } = res;
+      const { idNodoOrigen, idNodoDesde, idNodoDestinoFinal, mensaje, aristas } = res;
 
       let nombreOrigen = "";
       let nombreDestinoFinal = ""
@@ -102,7 +102,7 @@ class App extends React.Component {
             flooding(socket, this.state.nodos, this.state.id, idNodoDestinoFinal, idNodoOrigen, mensaje, this.addLog, res.extra !== undefined ? res.extra : null);
             break;
           case "dvr":
-            dvr(socket, this.state.nodos, this.state.id, idNodoDestinoFinal, idNodoOrigen, mensaje, this.addLog, res.extra !== undefined ? res.extra : null);
+            dvr(socket, this.state.nodos, this.state.id, idNodoDestinoFinal, idNodoOrigen, mensaje, this.addLog, res.extra !== undefined ? {...res.extra, aristas} : {aristas});
             break;
           case "lsr":
             lsr(socket, this.state.nodos, this.state.id, idNodoDestinoFinal, idNodoOrigen, mensaje, this.addLog, res.extra !== undefined ? res.extra : null);
