@@ -40,10 +40,10 @@ export const flooding = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendM
                 idNodoDestinoFinal: idEnviar, // Id del nodo destino final
                 mensaje: mensaje, // Mensaje que se le quiere enviar
                 extra: {
-                    algoritmo: 'flooding',
-                    saltosRecorridos: 1,
-                    distancia: parseInt(vecino.peso),
-                    nodosUsados: [{id: currentNodo.id, nombre: currentNodo.nombre}]
+                    algoritmo: 'flooding', // algoritmo que se utiliza
+                    saltosRecorridos: 1, // saltos recorridos por el mensaje
+                    distancia: parseInt(vecino.peso), // La suma de los pesos de los nodos recorridos
+                    nodosUsados: [{id: currentNodo.id, nombre: currentNodo.nombre}] // Lista de arreglos recorridos
                 }
             });
             onSendMessage(`Utilizando FLOODING se envió el mensaje de origen ${currentNodo.nombre} hacia ${vecino.nodo.nombre} que tiene destino final ${nombreDestinoFinal}.`);
@@ -52,13 +52,14 @@ export const flooding = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendM
         if (!canSend) {
             onSendMessage('No existen vecino al que se le pueda enviar el mensaje.')
         }
-    } else {
+    } else { // Si es un mensaje que llega de otro nodo
         if (extra.saltosRecorridos && extra.distancia && extra.nodosUsados) {
-            let idsNodosRecorridos = extra.nodosUsados.map(nodoUsado => nodoUsado.id);
-            let canSend = false;
-
+            let idsNodosRecorridos = extra.nodosUsados.map(nodoUsado => nodoUsado.id); // Lista de ids de nodos recorridos
+            let canSend = false; // Variable si se mandó un mensaje a mas de algun nodo vecino
+            
+            // Recorrer todos los nodos vecinos del nodo actual
             currentNodo.vecinos.forEach(vecino => {
-                if (!idsNodosRecorridos.includes(vecino.nodo.id)) {
+                if (!idsNodosRecorridos.includes(vecino.nodo.id)) { // Validar si el nodo ya fue recorrido
                     canSend = true;
                     socket.emit('send-message', {
                         idNodoDestino: vecino.nodo.id, // Id del nodo al que se le quiere mandar el mensaje dentro de la red (el intermedio)
@@ -66,10 +67,10 @@ export const flooding = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendM
                         idNodoDestinoFinal: idEnviar, // Id del nodo destino final
                         mensaje: mensaje, // Mensaje que se le quiere enviar
                         extra: {
-                            algoritmo: 'flooding',
-                            saltosRecorridos: parseInt(extra.saltosRecorridos) + 1,
-                            distancia: parseInt(extra.distancia) + parseInt(vecino.peso),
-                            nodosUsados: [...extra.nodosUsados, {id: currentNodo.id, nombre: currentNodo.nombre}]
+                            algoritmo: 'flooding', // algoritmo que se utiliza
+                            saltosRecorridos: parseInt(extra.saltosRecorridos) + 1, // saltos recorridos por el mensaje
+                            distancia: parseInt(extra.distancia) + parseInt(vecino.peso), // La suma de los pesos de los nodos recorridos
+                            nodosUsados: [...extra.nodosUsados, {id: currentNodo.id, nombre: currentNodo.nombre}] // Lista de arreglos recorridos
                         }
                     });
                     onSendMessage(`Utilizando FLOODING se envió el mensaje de origen ${nombreOrigen} hacia ${vecino.nodo.nombre} que tiene destino final ${nombreDestinoFinal}.`);
