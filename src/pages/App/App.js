@@ -19,6 +19,7 @@ class App extends React.Component {
       nombre: "",
       id: "",
       nodos: [],
+      aristas: [],
       algoritmo: "flooding",
       log: []
     }
@@ -32,7 +33,7 @@ class App extends React.Component {
 
     socket.on('actualizacion-red', (res) => {
       console.log("Actualizacion red ", res)
-      this.setState({nodos: res.nodos})
+      this.setState({nodos: res.nodos, aristas: res.aristas})
     })
 
     socket.on('node-connect-complete', (res) => {
@@ -159,7 +160,7 @@ class App extends React.Component {
               {
                 this.state.connectionComplete ?
                 <Fragment>
-                  <MensajeEnviar socket={this.state.socket} id={this.state.id} nodos={this.state.nodos} onAlgoritmoChange={this.algoritmoChange} onAfterSendMessage={this.addLog}/>
+                  <MensajeEnviar socket={this.state.socket} id={this.state.id} nodos={this.state.nodos} onAlgoritmoChange={this.algoritmoChange} onAfterSendMessage={this.addLog} aristas={this.state.aristas}/>
                   <LogComponent logs={this.state.log}/>
                 </Fragment>
                 :

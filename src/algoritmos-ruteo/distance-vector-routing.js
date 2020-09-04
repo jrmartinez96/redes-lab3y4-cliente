@@ -23,8 +23,8 @@ export const dvr = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendMessag
         }
     })
 
-    let distances = {};
-    let parents = {};
+    let distances = [];
+    let parents = [];
     let c;
 
     // TODO: Implementar algoritmo para decidir a quien enviarle el mensaje
@@ -61,10 +61,10 @@ export const dvr = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendMessag
                 idNodoOrigen: idOrigen, // Id del nodo origen
                 idNodoDestinoFinal: idEnviar, // Id del nodo destino final
                 mensaje: mensaje, // Mensaje que se le quiere enviar
-                extra: {parents: parents, done: true, counter: 0},
+                extra: {parents: parents, done: true, counter: 0, algoritmo: 'dvr'},
             })
             // Despues de mandar el mensaje
-            onSendMessage(`Se envió el mensaje de origen ${idOrigen} hacia ${parents[idOrigen]}`);
+            onSendMessage(`Se envió el mensaje de origen ${nombreOrigen} hacia ${parents[idOrigen]}`);
         } else {
             if (extra.counter <= extra.parents.length){
                 let counter = extra.counter + 1;
@@ -73,11 +73,11 @@ export const dvr = (socket, nodos, id, idEnviar, idOrigen, mensaje, onSendMessag
                     idNodoOrigen: extra.parents[idOrigen], // Id del nodo origen
                     idNodoDestinoFinal: idEnviar, // Id del nodo destino final
                     mensaje: mensaje, // Mensaje que se le quiere enviar
-                    extra: {parents: parents, done: true, counter: counter},
+                    extra: {parents: parents, done: true, counter: counter, algoritmo: 'dvr'},
                 })
             }
             // Despues de mandar el mensaje
-            onSendMessage(`Se envió el mensaje de origen ${idOrigen} hacia ${extra.parents[idOrigen]}`);
+            onSendMessage(`Se envió el mensaje de origen ${nombreOrigen} hacia ${extra.parents[idOrigen]}`);
         }
     } 
 
